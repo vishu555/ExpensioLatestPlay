@@ -2351,12 +2351,21 @@ const PROVIDERS={
     ph:'AIza…',
     call:async(key,prompt)=>{
       // Hard-trim prompt before sending — Gemini rejects payloads over 4MB
-      const trimmed=typeof prompt==='string'&&prompt.length>3000?prompt.slice(0,3000)+'\n\nJSON array:':prompt;
+      // Use BYTE-based trimming (not char-based) because ₹ = 3 bytes, emoji = 4 bytes
+      let trimmed = typeof prompt==='string' ? prompt : String(prompt);
+      const enc = new TextEncoder();
+      const MAX_PROMPT_BYTES = 8000; // ~2000 chars of mixed Unicode
+      if(enc.encode(trimmed).length > MAX_PROMPT_BYTES){
+        // Binary search for the right cut point in bytes
+        let lo=0, hi=trimmed.length;
+        while(lo<hi-1){const mid=(lo+hi)>>1;enc.encode(trimmed.slice(0,mid)).length<=MAX_PROMPT_BYTES?lo=mid:hi=mid;}
+        trimmed = trimmed.slice(0,lo) + '\n\nJSON array:';
+      }
       const bodyObj={contents:[{parts:[{text:trimmed}]}],generationConfig:{temperature:.7}};
       const bodyStr=JSON.stringify(bodyObj);
-      const byteSize=new TextEncoder().encode(bodyStr).length;
-      // Hard block — never send more than 500KB to Gemini
-      if(byteSize>512000){
+      const byteSize=enc.encode(bodyStr).length;
+      // Hard block — never send more than 50KB to Gemini (well under 4MB limit)
+      if(byteSize>51200){
         throw new Error('Payload too large ('+Math.round(byteSize/1024)+'KB). Please reduce your expense data and try again.');
       }
       const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
@@ -3122,18 +3131,23 @@ async function genInsights(){
 
     const prompt = buildPrompt(summary);
 
-    // ── Absolute size guard — hard cap at 2000 chars ──────────────
-    const safePrompt = prompt.length > 2000
-      ? prompt.slice(0,2000) + '\n\nJSON array:'
-      : prompt;
+    // ── Byte-based size guard (chars mislead with ₹/emoji multi-byte chars) ──
+    const _enc = new TextEncoder();
+    const MAX_PROMPT_BYTES = 6000; // safe ceiling; Gemini rejects payloads > 4MB
+    let safePrompt = prompt;
+    if(_enc.encode(safePrompt).length > MAX_PROMPT_BYTES){
+      let lo=0, hi=safePrompt.length;
+      while(lo<hi-1){const mid=(lo+hi)>>1;_enc.encode(safePrompt.slice(0,mid)).length<=MAX_PROMPT_BYTES?lo=mid:hi=mid;}
+      safePrompt = safePrompt.slice(0,lo) + '\n\nJSON array:';
+    }
 
     // ── Measure exact bytes before sending ────────────────────────
     const bodyObj = {contents:[{parts:[{text:safePrompt}]}],generationConfig:{temperature:.7}};
     const bodyStr = JSON.stringify(bodyObj);
-    const byteSize = new TextEncoder().encode(bodyStr).length;
+    const byteSize = _enc.encode(bodyStr).length;
 
-    // Block if somehow still too large (should never happen with 2000 char cap)
-    if(byteSize > 100000){
+    // Hard block — should never be reached with the byte guard above
+    if(byteSize > 51200){
       throw new Error(`Payload too large: ${Math.round(byteSize/1024)}KB. Please contact support.`);
     }
 
