@@ -1,0 +1,37 @@
+{
+  "packageId": "com.expensioapp.finance",
+  "host": "expensio-latest-play-kwsn.vercel.app",
+  "name": "ExpensioAPP \u2014 Smart Expense Tracker",
+  "launcherName": "Expensio",
+  "display": "standalone",
+  "themeColor": "#6c3de8",
+  "backgroundColor": "#6c3de8",
+  "enableNotifications": true,
+  "startUrl": "/?source=twa",
+  "iconUrl": "https://expensio-latest-play-kwsn.vercel.app/icons/icon-512x512.png",
+  "maskableIconUrl": "https://expensio-latest-play-kwsn.vercel.app/icons/maskable-512x512.png",
+  "splashScreenFadeOutDuration": 600,
+  "signingKey": {
+    "path": "android.keystore",
+    "alias": "expensioapp"
+  },
+  "appVersionCode": 1,
+  "appVersionName": "1.0.0",
+  "features": {
+    "locationDelegation": {
+      "enabled": false
+    },
+    "playBilling": {
+      "enabled": true
+    }
+  },
+  "alphaDependencies": {
+    "enabled": true
+  },
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://expensio-latest-play-kwsn.vercel.app/manifest.json",
+  "fallbackType": "customtabs",
+  "minSdkVersion": 21,
+  "orientation": "portrait",
+  "fingerprints": []
+}

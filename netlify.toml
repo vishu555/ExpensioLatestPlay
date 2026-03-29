@@ -1,0 +1,70 @@
+# ExpensioAPP — Netlify Configuration
+# Drop the expensio_pwa/ folder onto netlify.com — this file handles everything
+
+[build]
+  publish = "."
+  command = ""
+
+# ── Service Worker — must never be cached ──────────────────
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control     = "no-cache, no-store, must-revalidate"
+    Service-Worker-Allowed = "/"
+    Pragma            = "no-cache"
+    Expires           = "0"
+
+# ── Web App Manifest ────────────────────────────────────────
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Content-Type  = "application/manifest+json"
+    Cache-Control = "public, max-age=86400"
+
+# ── Digital Asset Links ─────────────────────────────────────
+[[headers]]
+  for = "/.well-known/assetlinks.json"
+  [headers.values]
+    Content-Type  = "application/json"
+    Cache-Control = "public, max-age=3600"
+
+# ── Icons — aggressive caching ──────────────────────────────
+[[headers]]
+  for = "/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/screenshots/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+# ── Security headers for all pages ──────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options    = "nosniff"
+    X-Frame-Options           = "SAMEORIGIN"
+    X-XSS-Protection          = "1; mode=block"
+    Referrer-Policy           = "strict-origin-when-cross-origin"
+    Permissions-Policy        = "camera=(), microphone=(), geolocation=(self)"
+    Cross-Origin-Opener-Policy = "same-origin"
+
+# ── SPA routing — all paths serve index.html ────────────────
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
+
+# ── Force HTTPS ─────────────────────────────────────────────
+[[redirects]]
+  from   = "http://expensioapp.in/*"
+  to     = "https://expensioapp.in/:splat"
+  status = 301
+  force  = true
+
+[[redirects]]
+  from   = "http://www.expensioapp.in/*"
+  to     = "https://expensioapp.in/:splat"
+  status = 301
+  force  = true

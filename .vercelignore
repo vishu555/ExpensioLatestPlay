@@ -1,0 +1,22 @@
+# ── Android / Gradle (TWA build artifacts — not served by Vercel) ──
+app/
+gradle/
+gradlew
+gradlew.bat
+gradle.properties
+settings.gradle
+build.gradle
+local.properties
+twa-manifest.json
+
+# ── Play Store assets (not part of the web app) ──
+screenshots/
+
+# ── Hosting configs for other platforms ──
+netlify.toml
+nginx.conf
+
+# ── OS / IDE junk ──
+.DS_Store
+Thumbs.db
+.idea/
