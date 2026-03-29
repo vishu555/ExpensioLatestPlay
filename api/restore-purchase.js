@@ -3,7 +3,7 @@
 // Uses Vercel KV (Redis) to store payment records after verification
 
 const ALLOWED_ORIGINS = [
-  'https://expensioapp.vercel.app',
+  'https://expensio-latest-play-kwsn.vercel.app',
   'https://expensioapp.in',
 ];
 

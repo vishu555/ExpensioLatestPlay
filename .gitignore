@@ -1,17 +1,3 @@
-# Android / Gradle
-.gradle/
-build/
-app/build/
-*.iml
-local.properties
-gradlew
-gradlew.bat
-gradle/
-build.gradle
-settings.gradle
-gradle.properties
-app/
-
 # IDE
 .idea/
 
@@ -23,3 +9,9 @@ Thumbs.db
 netlify.toml
 nginx.conf
 twa-manifest.json
+
+# Build folders
+build/
+app/build/
+.gradle/
+node_modules/

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Expensio</string>
+    <string name="asset_statements">
+        [{\n
+            \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n
+            \"target\": {\n
+                \"namespace\": \"android_app\",\n
+                \"package_name\": \"com.expensioapp.finance\",\n
+                \"sha256_cert_fingerprints\": [\"REPLACE_WITH_YOUR_ACTUAL_SHA256_FINGERPRINT_FROM_BUBBLEWRAP\"]\n
+            }\n
+        }]
+    </string>
+</resources>

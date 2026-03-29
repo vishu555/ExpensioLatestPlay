@@ -4,7 +4,7 @@
 import Razorpay from 'razorpay';
 
 const ALLOWED_ORIGINS = [
-  'https://expensioapp.vercel.app',   // replace with your actual Vercel URL
+  'https://expensio-latest-play-kwsn.vercel.app',   // replace with your actual Vercel URL
   'https://expensioapp.in',           // replace with your custom domain
 ];
 

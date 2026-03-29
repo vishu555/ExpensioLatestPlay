@@ -1,6 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="cloud">
 <head>
+<script>
+// ── Auto-clear old service worker caches ──────────────────────────────
+// Forces fresh index.html on every device, fixing stale cache issues
+(function() {
+  var APP_VERSION = '3.0.0';
+  var storedVersion = localStorage.getItem('app_sw_version');
+  if (storedVersion !== APP_VERSION) {
+    // Version changed — unregister all SWs and clear all caches
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs) {
+        regs.forEach(function(reg) { reg.unregister(); });
+      });
+    }
+    if ('caches' in window) {
+      caches.keys().then(function(keys) {
+        keys.forEach(function(key) { caches.delete(key); });
+      });
+    }
+    localStorage.setItem('app_sw_version', APP_VERSION);
+    // Always force hard reload to get fresh page from server
+    window.location.reload(true);
+  }
+})();
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -2326,10 +2351,17 @@ const PROVIDERS={
     ph:'AIza…',
     call:async(key,prompt)=>{
       // Hard-trim prompt before sending — Gemini rejects payloads over 4MB
-      const p=typeof prompt==='string'&&prompt.length>6000?prompt.slice(0,6000)+'\n\nJSON array:':prompt;
+      const trimmed=typeof prompt==='string'&&prompt.length>3000?prompt.slice(0,3000)+'\n\nJSON array:':prompt;
+      const bodyObj={contents:[{parts:[{text:trimmed}]}],generationConfig:{temperature:.7}};
+      const bodyStr=JSON.stringify(bodyObj);
+      const byteSize=new TextEncoder().encode(bodyStr).length;
+      // Hard block — never send more than 500KB to Gemini
+      if(byteSize>512000){
+        throw new Error('Payload too large ('+Math.round(byteSize/1024)+'KB). Please reduce your expense data and try again.');
+      }
       const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
         method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({contents:[{parts:[{text:p}]}],generationConfig:{temperature:.7}})
+        body:bodyStr
       });
       const d=await r.json();
       if(!r.ok)throw new Error(d.error?.message||`Gemini error ${r.status}`);
@@ -2341,10 +2373,12 @@ const PROVIDERS={
     hint:'Get key at <a href="https://console.groq.com" target="_blank">console.groq.com</a> → API Keys',
     ph:'gsk_…',
     call:async(key,prompt)=>{
-      const p=typeof prompt==='string'&&prompt.length>6000?prompt.slice(0,6000)+'\n\nJSON array:':prompt;
+      const p=typeof prompt==='string'&&prompt.length>3000?prompt.slice(0,3000)+'\n\nJSON array:':prompt;
+      const bodyStr=JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1000,messages:[{role:'user',content:p}]});
+      if(new TextEncoder().encode(bodyStr).length>512000)throw new Error('Payload too large — reduce expense data');
       const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{
         method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${key}`},
-        body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1000,messages:[{role:'user',content:p}]})
+        body:bodyStr
       });
       const d=await r.json();
       if(!r.ok)throw new Error(d.error?.message||`Groq error ${r.status}`);
@@ -2356,10 +2390,12 @@ const PROVIDERS={
     hint:'Get key at <a href="https://openrouter.ai" target="_blank">openrouter.ai</a> → Keys',
     ph:'sk-or-…',
     call:async(key,prompt)=>{
-      const p=typeof prompt==='string'&&prompt.length>6000?prompt.slice(0,6000)+'\n\nJSON array:':prompt;
+      const p=typeof prompt==='string'&&prompt.length>3000?prompt.slice(0,3000)+'\n\nJSON array:':prompt;
+      const bodyStr=JSON.stringify({model:'meta-llama/llama-3.3-70b-instruct:free',max_tokens:1000,messages:[{role:'user',content:p}]});
+      if(new TextEncoder().encode(bodyStr).length>512000)throw new Error('Payload too large — reduce expense data');
       const r=await fetch('https://openrouter.ai/api/v1/chat/completions',{
         method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${key}`,'HTTP-Referer':'https://expensio.app','X-Title':'Expensio'},
-        body:JSON.stringify({model:'meta-llama/llama-3.3-70b-instruct:free',max_tokens:1000,messages:[{role:'user',content:p}]})
+        body:bodyStr
       });
       const d=await r.json();
       if(!r.ok)throw new Error(d.error?.message||`OpenRouter error ${r.status}`);
@@ -2371,11 +2407,13 @@ const PROVIDERS={
     hint:'Get key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>',
     ph:'sk-ant-…',
     call:async(key,prompt)=>{
-      const p=typeof prompt==='string'&&prompt.length>6000?prompt.slice(0,6000)+'\n\nJSON array:':prompt;
+      const p=typeof prompt==='string'&&prompt.length>3000?prompt.slice(0,3000)+'\n\nJSON array:':prompt;
+      const bodyStr=JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1000,messages:[{role:'user',content:p}]});
+      if(new TextEncoder().encode(bodyStr).length>512000)throw new Error('Payload too large — reduce expense data');
       const r=await fetch('https://api.anthropic.com/v1/messages',{
         method:'POST',
         headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-        body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1000,messages:[{role:'user',content:p}]})
+        body:bodyStr
       });
       const d=await r.json();
       if(!r.ok)throw new Error(d.error?.message||`Anthropic error ${r.status}`);
@@ -3038,63 +3076,75 @@ async function genInsights(){
   btn.disabled=true;
   body.innerHTML=`<span class="spinner"></span> Connecting to ${prov.name}…`;
 
-  const total=EX.reduce((s,e)=>s+e.amount,0);
-  const days=[...new Set(EX.map(e=>e.date))];
-  const cm={};EX.forEach(e=>{cm[e.category]=(cm[e.category]||0)+e.amount;});
-  const mm={};EX.forEach(e=>{const m=e.date.slice(0,7);mm[m]=(mm[m]||0)+e.amount;});
-  // Cap to top 5 to avoid sending every expense to the API
-  const t5=[...EX].sort((a,b)=>b.amount-a.amount).slice(0,5);
-  const inc = totalIncome();
-  const spent = monthSpent(thisMonth());
-
-  // Build loans summary — cap at 10 to keep prompt small
-  const loans = (FIN.loans||[]).slice(0,10);
-  const loanSummary = loans.length
-    ? 'Loans: '+loans.map(l=>`${l.name}(outstanding:₹${fmt(+l.outstanding||0)},EMI:₹${fmt(+l.emi||0)}/mo)`).join('; ')
-    : 'Loans: None';
-  const totalEMI = (FIN.loans||[]).reduce((s,l)=>s+(+l.emi||0),0);
-
-  // Build goals summary — cap at 10
-  const goals = (FIN.goals||[]).slice(0,10);
-  const goalSummary = goals.length
-    ? 'Goals: '+goals.map(g=>`${g.name}(saved:₹${fmt(+g.saved||0)},target:₹${fmt(+g.target||0)},${g.target>0?((+g.saved/+g.target*100).toFixed(0)):'0'}%)`).join('; ')
-    : 'Goals: None set';
-
-  // Build savings summary
-  const savBal = FIN.savingsBalance||0;
-  const savSummary = `Savings balance: ₹${fmt(savBal)}`;
-
-  // Cap categories to top 12 and notes to 30 chars to prevent payload overflow
-  const catList=Object.entries(cm).sort((a,b)=>b[1]-a[1]).slice(0,12).map(([c,v])=>`${c}:₹${fmt(v)}(${((v/total)*100).toFixed(0)}%)`).join(', ');
-  const monthList=Object.entries(mm).sort().slice(-6).map(([m,v])=>`${m}:₹${fmt(v)}`).join(', ');
-  const summary=`Income: ₹${fmt(inc)}/mo | Spent this month: ₹${fmt(spent)} | Monthly EMI burden: ₹${fmt(totalEMI)}
-Total tracked: ₹${fmt(total)} | ${EX.length} transactions | ${days.length} active days | Avg/day: ₹${fmt(total/(days.length||1))}
-Categories: ${catList}
-Monthly trend: ${monthList}
-Top 5 expenses: ${t5.map(e=>`${e.category}:₹${fmt(e.amount)}(${e.note?e.note.slice(0,30):'—'})`).join(' | ')}
-${loanSummary}
-${goalSummary}
-${savSummary}`;
-
-  // Hard payload guard — trim prompt to 8000 chars max to stay under 4MB API limit
-  const prompt=buildPrompt(summary);
-  const MAX_PROMPT_CHARS=8000;
-  const safePrompt=prompt.length>MAX_PROMPT_CHARS
-    ? prompt.slice(0,MAX_PROMPT_CHARS)+'
-...[trimmed for size]
-
-JSON array:'
-    : prompt;
-
   try{
-    body.innerHTML=`<span class="spinner"></span> Analysing with ${prov.name}…`;
-    // Use decoded key — never pass CFG.apiKey (encoded) directly to API
-    const raw=await prov.call(getApiKey(),safePrompt);
-    const match=raw.match(/\[[\s\S]*\]/);
-    if(!match)throw new Error('Unexpected response format. Try again.');
-    const ins=JSON.parse(match[0]);
-    if(!Array.isArray(ins)||!ins.length)throw new Error('No insights returned. Try again.');
-    // Sanitize AI response text before rendering to prevent any injected HTML
+    // ── Build a STRICTLY size-limited summary ──────────────────────
+    const total  = EX.reduce((s,e)=>s+e.amount,0);
+    const spent  = monthSpent(thisMonth());
+    const inc    = totalIncome();
+    const count  = EX.length;
+
+    // Category breakdown — top 8 only, no notes
+    const cm={};
+    EX.forEach(e=>{cm[e.category]=(cm[e.category]||0)+e.amount;});
+    const cats = Object.entries(cm)
+      .sort((a,b)=>b[1]-a[1])
+      .slice(0,8)
+      .map(([c,v])=>`${c}:${Math.round(v/total*100)}%`)
+      .join(', ');
+
+    // Monthly trend — last 4 months only
+    const mm={};
+    EX.forEach(e=>{const m=e.date.slice(0,7);mm[m]=(mm[m]||0)+e.amount;});
+    const months = Object.entries(mm).sort().slice(-4)
+      .map(([m,v])=>`${m}:₹${Math.round(v)}`)
+      .join(', ');
+
+    // Loans — top 3 only
+    const loans=(FIN.loans||[]).slice(0,3)
+      .map(l=>`${l.name.slice(0,15)}:EMI₹${Math.round(+l.emi||0)}`)
+      .join('; ') || 'None';
+
+    // Goals — top 3 only
+    const goals=(FIN.goals||[]).slice(0,3)
+      .map(g=>`${g.name.slice(0,15)}:${g.target>0?Math.round(+g.saved/+g.target*100):0}%`)
+      .join('; ') || 'None';
+
+    const summary =
+      `Income:₹${Math.round(inc)}/mo Spent:₹${Math.round(spent)} Total:₹${Math.round(total)} Txns:${count}
+`+
+      `Categories: ${cats}
+`+
+      `Trend: ${months}
+`+
+      `Loans: ${loans}
+`+
+      `Goals: ${goals}`;
+
+    const prompt = buildPrompt(summary);
+
+    // ── Absolute size guard — hard cap at 2000 chars ──────────────
+    const safePrompt = prompt.length > 2000
+      ? prompt.slice(0,2000) + '\n\nJSON array:'
+      : prompt;
+
+    // ── Measure exact bytes before sending ────────────────────────
+    const bodyObj = {contents:[{parts:[{text:safePrompt}]}],generationConfig:{temperature:.7}};
+    const bodyStr = JSON.stringify(bodyObj);
+    const byteSize = new TextEncoder().encode(bodyStr).length;
+
+    // Block if somehow still too large (should never happen with 2000 char cap)
+    if(byteSize > 100000){
+      throw new Error(`Payload too large: ${Math.round(byteSize/1024)}KB. Please contact support.`);
+    }
+
+    body.innerHTML=`<span class="spinner"></span> Analysing with ${prov.name}… (${Math.round(byteSize/1024)}KB)`;
+
+    const raw = await prov.call(getApiKey(), safePrompt);
+    const match = raw.match(/\[[\s\S]*\]/);
+    if(!match) throw new Error('Unexpected response format. Try again.');
+    const ins = JSON.parse(match[0]);
+    if(!Array.isArray(ins)||!ins.length) throw new Error('No insights returned. Try again.');
+
     const escHtml=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     const safeIcon=s=>String(s||'💡').replace(/[<>"'&]/g,'').slice(0,4);
     const safeTag =s=>String(s||'Insight').replace(/[<>"'&]/g,'').slice(0,30);
@@ -3104,13 +3154,14 @@ JSON array:'
         <div class="ins-text"><span class="ins-tag">${safeTag(it.tag)}</span>${escHtml(it.text)}</div>
       </div>`).join('');
     toast(`${ins.length} insights generated ✓`,'ok');
+
   }catch(err){
     const msg=err.message||'Unknown error';
     const isCors=msg.includes('fetch')||msg.includes('Failed to fetch')||msg.includes('NetworkError');
     body.innerHTML=`<div class="err-box">
       <strong>⚠ ${isCors?'Network / CORS Error':'Error'}</strong><br>${msg}
       ${isCors?`<br><br><span style="color:var(--mid)">Running the file via <code>file://</code> blocks API calls.<br>
-      Fix: <code>npx serve .</code> then open <strong>http://localhost:3000</strong></span>`:''}
+      Fix: open from your Vercel URL</span>`:''}
     </div>`;
     toast('Insight generation failed','er');
   }finally{btn.disabled=false;}

@@ -5,7 +5,7 @@
 import crypto from 'crypto';
 
 const ALLOWED_ORIGINS = [
-  'https://expensioapp.vercel.app',
+  'https://expensio-latest-play-kwsn.vercel.app',
   'https://expensioapp.in',
 ];
 

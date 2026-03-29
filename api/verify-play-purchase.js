@@ -4,7 +4,7 @@
 import { GoogleAuth } from 'google-auth-library';
 
 const ALLOWED_ORIGINS = [
-  'https://expensioapp.vercel.app',
+  'https://expensio-latest-play-kwsn.vercel.app',
   'https://expensioapp.in',
 ];
 
