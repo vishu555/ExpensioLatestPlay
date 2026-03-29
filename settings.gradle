@@ -1,2 +1,3 @@
+rootProject.name = "expensio_v3_root"
 include ':app'
-rootProject.name = "expensio_v3"
+project(':app').projectDir = new File('exp8/app')
