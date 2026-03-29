@@ -1,0 +1,25 @@
+# Android / Gradle
+.gradle/
+build/
+app/build/
+*.iml
+local.properties
+gradlew
+gradlew.bat
+gradle/
+build.gradle
+settings.gradle
+gradle.properties
+app/
+
+# IDE
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Netlify / Nginx (not needed for Vercel)
+netlify.toml
+nginx.conf
+twa-manifest.json

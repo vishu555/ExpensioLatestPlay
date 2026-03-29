@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offline — ExpensioAPP</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#6c3de8,#8b5cf6);min-height:100vh;display:flex;align-items:center;justify-content:center;color:#fff;text-align:center;padding:2rem}
+  .card{background:rgba(255,255,255,.15);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.25);border-radius:24px;padding:3rem 2rem;max-width:400px;width:100%}
+  .icon{font-size:4rem;margin-bottom:1rem}
+  h1{font-size:1.8rem;font-weight:800;margin-bottom:.5rem;letter-spacing:-.02em}
+  p{opacity:.85;line-height:1.7;margin-bottom:1.5rem;font-size:.95rem}
+  .btn{background:#fff;color:#6c3de8;border:none;border-radius:12px;padding:14px 32px;font-size:1rem;font-weight:800;cursor:pointer;transition:transform .2s,box-shadow .2s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+  .info{font-size:.75rem;opacity:.65;margin-top:1.5rem;line-height:1.6}
+  .info strong{display:block;margin-bottom:.3rem}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="icon">📡</div>
+  <h1>You're Offline</h1>
+  <p>No internet connection detected. Your expense data is safely stored on your device and you can still view it once you reconnect.</p>
+  <button class="btn" onclick="window.location.reload()">🔄 Try Again</button>
+  <div class="info">
+    <strong>💾 Your data is safe</strong>
+    All expenses, budgets, goals and loans are stored locally on your device. Nothing is lost when you're offline.
+  </div>
+</div>
+</body>
+</html>
