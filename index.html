@@ -215,7 +215,7 @@
 ═══════════════════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--txt);font-family:var(--font-body);font-size:14px;min-height:100vh;overflow-x:hidden;transition:background .4s,color .3s}
+body{background:var(--bg);color:var(--txt);font-family:var(--font-body);font-size:14px;min-height:100vh;overflow-x:hidden;transition:background .4s,color .3s}html{overflow-x:hidden;max-width:100vw}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0}
 
 /* ═══════════════════════════════════════════
@@ -223,15 +223,15 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0}
 ═══════════════════════════════════════════ */
 header{position:sticky;top:0;z-index:200;background:var(--header-bg);box-shadow:0 4px 20px rgba(0,0,0,.15);border-bottom:none;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;transition:background .4s,color .3s;min-height:64px;overflow:visible}
 .logo{font-family:var(--font-ui);font-weight:800;font-size:1.3rem;letter-spacing:.02em;color:var(--header-txt,var(--acc));display:flex;align-items:center;gap:8px;transition:color .3s;text-transform:uppercase}
-.logo-sub{font-family:var(--font-ui);font-size:.52rem;font-weight:600;color:var(--header-dim,rgba(255,255,255,.75));letter-spacing:.18em;text-transform:uppercase;align-self:center}
+.logo-sub{font-family:var(--font-ui);font-size:.58rem;font-weight:600;color:var(--header-dim,rgba(255,255,255,.75));letter-spacing:.15em;text-transform:uppercase;align-self:center}
 nav{display:flex;gap:2px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:3px;transition:all .3s;backdrop-filter:blur(8px)}
-nav button{background:none;border:none;color:rgba(255,255,255,.85);padding:7px 14px;border-radius:8px;font-family:var(--font-ui);font-weight:700;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .18s}
+nav button{background:none;border:none;color:rgba(255,255,255,.85);padding:7px 14px;border-radius:8px;font-family:var(--font-ui);font-weight:700;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .18s}
 nav button.active{background:#ffffff;color:var(--acc);font-weight:800}
 nav button:hover:not(.active){color:#ffffff;background:rgba(255,255,255,.15)}
 .hdr-right{display:flex;align-items:center;gap:1.2rem}
 .hdr-total{text-align:right}
-.hdr-lbl{font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--header-dim,var(--dim));font-family:var(--font-ui);font-weight:700}
-.hdr-val{font-family:var(--font-num);font-size:1.05rem;color:var(--header-txt,var(--acc));transition:color .3s;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hdr-lbl{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--header-dim,var(--dim));font-family:var(--font-ui);font-weight:700}
+.hdr-val{font-family:var(--font-num);font-size:1.05rem;font-weight:800;color:var(--header-txt,var(--acc));transition:color .3s;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* ═══════════════════════════════════════════
    MAIN LAYOUT
@@ -249,10 +249,10 @@ main{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:1.8rem 2
 .kpi:hover{box-shadow:0 8px 24px rgba(0,0,0,.12);transform:translateY(-2px)}
 .kpi::after{content:'';position:absolute;top:0;left:0;bottom:0;width:4px;border-radius:16px 0 0 16px;transition:background .3s}
 .kpi:nth-child(1)::after{background:var(--acc)}.kpi:nth-child(2)::after{background:var(--acc2)}.kpi:nth-child(3)::after{background:var(--acc3)}.kpi:nth-child(4)::after{background:var(--acc5)}
-.kpi-lbl{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;font-family:var(--font-ui);font-weight:700}
+.kpi-lbl{font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;font-family:var(--font-ui);font-weight:700}
 .kpi-val{font-family:var(--font-num);font-size:1.55rem;font-weight:800;line-height:1;letter-spacing:-.03em;max-width:calc(100% - 48px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .kpi-val .cur{font-size:.75rem;vertical-align:super;color:var(--mid)}
-.kpi-sub{font-size:.6rem;color:var(--dim);margin-top:6px}
+.kpi-sub{font-size:.64rem;color:var(--dim);margin-top:6px}
 .kpi-icon{position:absolute;top:.9rem;right:.9rem;font-size:1.1rem;width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;opacity:.85;background:var(--s2);flex-shrink:0}
 
 /* ═══════════════════════════════════════════
@@ -301,7 +301,7 @@ main{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:1.8rem 2
 .finp:focus,.fsel:focus,.ftxt:focus{border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb, var(--acc) 18%, transparent)}
 .ftxt{resize:vertical;min-height:80px}
 .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-.cat-btn{background:var(--s3);border:1px solid var(--border);border-radius:8px;padding:8px 4px;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:'DM Mono';font-size:.6rem;color:var(--dim)}
+.cat-btn{background:var(--s3);border:1px solid var(--border);border-radius:8px;padding:8px 4px;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:'DM Mono';font-size:.64rem;color:var(--dim)}
 .cat-btn:hover{border-color:var(--border2);color:var(--txt)}
 .cat-btn.sel{border-color:var(--acc);background:color-mix(in srgb, var(--acc) 12%, transparent);color:var(--acc)}
 .cat-em{font-size:1.2rem}
@@ -368,11 +368,11 @@ pre{font-size:.65rem;color:var(--mid);line-height:1.85;background:var(--s3);bord
 .s-nav-icon{font-size:1rem;width:20px;text-align:center}
 .s-panel{display:none}.s-panel.active{display:block}
 .s-section{background:var(--s1);border:none;border-radius:16px;padding:1.6rem;margin-bottom:1.2rem;transition:background .3s;animation:fadeUp .4s ease both;box-shadow:0 2px 12px rgba(0,0,0,.07)}
-.s-section-title{font-family:var(--font-ui);font-weight:800;font-size:1rem;letter-spacing:-.02em;margin-bottom:.3rem;display:flex;align-items:center;gap:10px}
-.s-section-desc{font-size:.72rem;color:var(--dim);margin-bottom:1.4rem;line-height:1.7}
+.s-section-title{font-family:var(--font-ui);font-weight:800;font-size:1.05rem;letter-spacing:-.02em;margin-bottom:.3rem;display:flex;align-items:center;gap:10px}
+.s-section-desc{font-size:.76rem;color:var(--dim);margin-bottom:1.4rem;line-height:1.7}
 .s-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);gap:1rem}
 .s-row:last-child{border-bottom:none;padding-bottom:0}
-.s-row-label{font-size:.78rem;color:var(--txt)}
+.s-row-label{font-size:.82rem;color:var(--txt)}
 .s-row-sub{font-size:.65rem;color:var(--dim);margin-top:2px}
 .s-inp-sm{background:var(--s3);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--txt);font-family:'DM Mono';font-size:.78rem;outline:none;width:280px;transition:border-color .2s,background .3s}
 .s-inp-sm:focus{border-color:var(--acc4)}
@@ -444,7 +444,7 @@ pre{font-size:.65rem;color:var(--mid);line-height:1.85;background:var(--s3);bord
 
 .mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;background:var(--s1);border-top:none;box-shadow:0 -4px 20px rgba(0,0,0,.1);padding:0 0 env(safe-area-inset-bottom,0);transition:background .3s}
 .mob-nav-inner{display:flex;height:62px}
-.mob-nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:.52rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);transition:color .15s;padding:0}
+.mob-nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);transition:color .15s;padding:0}
 .mob-nav-btn .mn-icon{font-size:1.3rem;line-height:1;transition:transform .15s}
 .mob-nav-btn.active{color:var(--acc)}
 .mob-nav-btn.active .mn-icon{transform:scale(1.15)}
@@ -499,14 +499,14 @@ pre{font-size:.65rem;color:var(--mid);line-height:1.85;background:var(--s3);bord
     text-align:center;padding:.38rem .3rem;border-right:1px solid rgba(255,255,255,.2);
   }
   .fin-bar-item:last-child{border-right:none}
-  .fin-bar-lbl{font-size:.46rem;letter-spacing:.1em;margin-bottom:2px;color:rgba(255,255,255,.8);font-family:var(--font-ui);font-weight:700;text-transform:uppercase}
+  .fin-bar-lbl{font-size:.5rem;letter-spacing:.08em;margin-bottom:2px;color:rgba(255,255,255,.8);font-family:var(--font-ui);font-weight:700;text-transform:uppercase}
   .fin-bar-val{font-size:.8rem;white-space:nowrap;overflow:visible;max-width:none;letter-spacing:-.02em;color:#ffffff !important;font-family:var(--font-num);font-weight:800}
   .hdr-val{font-size:.8rem;color:#ffffff !important;font-family:var(--font-num);font-weight:800}
 
   /* ── Mobile nav ── */
   .mob-nav{display:block}
   .mob-nav-inner{height:58px}
-  .mob-nav-btn{font-size:.48rem;gap:2px}
+  .mob-nav-btn{font-size:.53rem;gap:2px}
   .mob-nav-btn .mn-icon{font-size:1.25rem}
   .fab{display:flex;right:.9rem;bottom:70px;width:50px;height:50px;font-size:1.5rem}
 
@@ -639,7 +639,9 @@ pre{font-size:.65rem;color:var(--mid);line-height:1.85;background:var(--s3);bord
 .btn-df.danger:hover{border-color:var(--danger);color:var(--danger)}
 
 
-.bk-status{font-size:.63rem;color:var(--dim);margin-top:2px;display:flex;align-items:center;gap:5px}
+.bk-card-row{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:nowrap}
+.bk-card-row>.btn-save{white-space:nowrap;flex-shrink:0;align-self:flex-start}
+.bk-status{font-size:.68rem;color:var(--dim);margin-top:2px;display:flex;align-items:center;gap:5px}
 .bk-dot{width:7px;height:7px;border-radius:50%;background:var(--dim);flex-shrink:0}
 .bk-dot.ok{background:var(--acc5)}.bk-dot.warn{background:var(--acc2)}
 
@@ -672,8 +674,8 @@ pre{font-size:.65rem;color:var(--mid);line-height:1.85;background:var(--s3);bord
 /* Finance bar (header) */
 .fin-bar{display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
 .fin-bar-item{text-align:right}
-.fin-bar-lbl{font-size:.5rem;letter-spacing:.13em;text-transform:uppercase;color:var(--header-dim,var(--dim));font-family:var(--font-ui);font-weight:700}
-.fin-bar-val{font-family:var(--font-num);font-size:.9rem;font-weight:800;line-height:1.15;white-space:nowrap;color:var(--header-txt,var(--txt));letter-spacing:-.02em}
+.fin-bar-lbl{font-size:.56rem;letter-spacing:.11em;text-transform:uppercase;color:var(--header-dim,var(--dim));font-family:var(--font-ui);font-weight:700}
+.fin-bar-val{font-family:var(--font-num);font-size:.95rem;font-weight:800;line-height:1.15;white-space:nowrap;color:var(--header-txt,var(--txt));letter-spacing:-.02em}
 .fin-bar-val.income{color:var(--header-txt,var(--acc5))}
 .fin-bar-val.savings{color:var(--header-txt,var(--acc3))}
 .fin-bar-val.danger{color:#fca5a5}
@@ -773,7 +775,7 @@ pre{font-size:.65rem;color:var(--mid);line-height:1.85;background:var(--s3);bord
 .loan-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.7rem}
 .loan-stat{text-align:center}
 .loan-stat-lbl{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:3px}
-.loan-stat-val{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;line-height:1}
+.loan-stat-val{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;line-height:1}
 .loan-stat-val.danger{color:var(--danger)}
 .loan-stat-val.ok{color:var(--acc5)}
 .loan-stat-val.warn{color:var(--acc2)}
@@ -1039,8 +1041,8 @@ html, body { max-width: 100vw; overflow-x: hidden; }
     min-width: 0;
   }
   .fin-bar-item:last-child { border-right: none; }
-  .fin-bar-lbl { font-size: .42rem; letter-spacing:.08em; color:rgba(255,255,255,.8); }
-  .fin-bar-val { font-size: .78rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .fin-bar-lbl { font-size: .48rem; letter-spacing:.07em; color:rgba(255,255,255,.8); }
+  .fin-bar-val { font-size: .84rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .license-badge { font-size:.5rem; padding:3px 8px; }
   .trial-banner { font-size:.6rem; padding:5px 10px; gap:6px; top:auto; position:relative; }
   .trial-banner .tb-btn { font-size:.52rem; padding:2px 8px; }
@@ -1141,12 +1143,13 @@ html, body { max-width: 100vw; overflow-x: hidden; }
   /* === SETTINGS === */
   .settings-layout { grid-template-columns: 1fr; gap: .75rem; }
   .settings-nav { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px; }
-  .s-nav-item { padding: 6px 12px; font-size: .58rem; }
+  .s-nav-item { padding: 7px 14px; font-size: .64rem; }
   .s-section { padding: 1rem 1.1rem; border-radius: var(--mob-radius); margin-bottom: .75rem; }
-  .s-section-title { font-size: .78rem; }
-  .s-section-desc { font-size: .68rem; }
+  .s-panel.active { overflow-y: visible; }
+  .s-section-title { font-size: .88rem; }
+  .s-section-desc { font-size: .72rem; }
   .s-row { padding: .6rem 0; flex-wrap: wrap; gap: .5rem; }
-  .s-row-label { font-size: .72rem; }
+  .s-row-label { font-size: .78rem; }
   .s-row-sub { font-size: .64rem; }
   .s-inp-sm { width: 100%; font-size: .78rem; }
   .theme-grid { grid-template-columns: repeat(2,1fr); gap: .55rem; }
@@ -1154,6 +1157,9 @@ html, body { max-width: 100vw; overflow-x: hidden; }
   .prov-grid { grid-template-columns: 1fr; gap: .55rem; }
   .data-stat-grid { grid-template-columns: repeat(2,1fr); }
   .plan-cards { grid-template-columns: 1fr; }
+  /* Backup/restore cards: stack button below text on mobile */
+  .bk-card-row { flex-direction: column; flex-wrap: wrap; gap: .6rem; }
+  .bk-card-row > .btn-save { width: 100%; text-align: center; }
 
   /* === PAYWALL MODAL === */
   .paywall-card { padding: 1.5rem 1.2rem; border-radius: 18px; }
@@ -1186,7 +1192,7 @@ html, body { max-width: 100vw; overflow-x: hidden; }
   /* === MOBILE BOTTOM NAV === */
   .mob-nav { display: block !important; }
   .mob-nav-inner { height: 58px; padding-bottom: var(--safe-bottom); }
-  .mob-nav-btn { font-size: .48rem; gap: 2px; }
+  .mob-nav-btn { font-size: .53rem; gap: 2px; }
   .mob-nav-btn .mn-icon { font-size: 1.22rem; }
   .fab { display: flex !important; right: .9rem; bottom: calc(64px + var(--safe-bottom)); width: 50px; height: 50px; font-size: 1.5rem; }
 
@@ -1221,12 +1227,26 @@ html, body { max-width: 100vw; overflow-x: hidden; }
   .paywall-card { max-height: 95vh; overflow-y: auto; }
 }
 
+/* ── MID-SMALL: ≤420px (Samsung A-series, Pixel 6a) ── */
+@media(max-width:420px){
+  .fin-bar-val { font-size: .78rem; }
+  .fin-bar-lbl { font-size: .46rem; }
+  .kpi-val { font-size: 1.05rem; }
+  /* Backup card: stack on phones narrower than 420px */
+  .bk-card-row { flex-direction: column; gap: .55rem; }
+  .bk-card-row > .btn-save { width: 100%; text-align: center; }
+  /* Font card grid and theme grid */
+  .theme-grid { grid-template-columns: repeat(2,1fr); }
+  .font-grid { grid-template-columns: repeat(2,1fr); }
+}
+
 /* ── VERY SMALL: ≤360px (budget Android phones) ── */
 @media(max-width:360px){
   :root { --mob-pad: 10px; }
   .kpi-row { grid-template-columns: 1fr 1fr; gap: .4rem; }
   .kpi-val { font-size: .95rem; }
-  .fin-bar-val { font-size: .7rem; }
+  .fin-bar-val { font-size: .74rem; }
+  .fin-bar-lbl { font-size: .44rem; }
   .logo { font-size: .88rem; }
   .chart-wrap { height: 150px; }
   .cat-grid { grid-template-columns: repeat(4,1fr); gap: 3px; }
@@ -1234,8 +1254,15 @@ html, body { max-width: 100vw; overflow-x: hidden; }
   .theme-grid { grid-template-columns: repeat(2,1fr); gap: .45rem; }
   .font-grid { grid-template-columns: 1fr 1fr; gap: .45rem; }
   .exp-card { padding: .75rem .85rem; }
-  .mob-nav-btn { font-size: .44rem; }
+  .mob-nav-btn { font-size: .46rem; }
   main { padding: .5rem .65rem calc(68px + var(--safe-bottom) + .5rem); }
+  /* Backup/restore cards: full-width button on tiny screens */
+  .bk-card-row { flex-direction: column; gap: .5rem; }
+  .bk-card-row > .btn-save { width: 100%; text-align: center; font-size: .66rem; }
+  /* Reduce section title size slightly */
+  .s-section-title { font-size: .82rem; }
+  /* Settings nav items smaller */
+  .s-nav-item { padding: 5px 9px; font-size: .58rem; }
 }
 
 /* ── ULTRA SMALL: ≤320px (Galaxy A, older phones) ── */
@@ -1983,15 +2010,15 @@ html, body { max-width: 100vw; overflow-x: hidden; }
 
           <!-- CARD 1 — Save Backup -->
           <div style="border:1.5px solid var(--acc);border-radius:12px;padding:1rem 1.1rem;margin-bottom:.8rem;background:color-mix(in srgb,var(--acc) 5%,var(--s1))">
-            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+            <div class="bk-card-row">
               <div style="flex:1;min-width:0">
-                <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+                <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px;flex-wrap:wrap">
                   <span style="font-size:1.1rem">⬇️</span>
                   <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:var(--acc)">Save Full Backup</span>
                   <span style="font-size:.58rem;background:var(--acc);color:#fff;border-radius:4px;padding:1px 7px;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:.06em">EXPORT</span>
                 </div>
-                <div style="font-size:.72rem;color:var(--mid);line-height:1.65">
-                  Downloads <strong>two CSV files</strong> to your computer — one for your expense transactions, one for income, budgets, goals, loans and savings. Use to back up before switching devices.
+                <div style="font-size:.75rem;color:var(--mid);line-height:1.7">
+                  Downloads <strong>two CSV files</strong> — expenses CSV (transactions) and finance CSV (goals, loans, income, budgets, savings). Use to back up before switching devices.
                 </div>
                 <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
                   <code style="font-size:.6rem;background:var(--s3);padding:2px 7px;border-radius:4px;border:1px solid var(--border)">expensio_expenses_DATE.csv</code>
@@ -2004,17 +2031,17 @@ html, body { max-width: 100vw; overflow-x: hidden; }
 
           <!-- CARD 2 — Restore Backup -->
           <div style="border:1.5px solid var(--acc3);border-radius:12px;padding:1rem 1.1rem;margin-bottom:.8rem;background:color-mix(in srgb,var(--acc3) 5%,var(--s1))">
-            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+            <div class="bk-card-row">
               <div style="flex:1;min-width:0">
-                <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+                <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px;flex-wrap:wrap">
                   <span style="font-size:1.1rem">🔄</span>
                   <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:var(--acc3)">Restore from Backup</span>
                   <span style="font-size:.58rem;background:var(--acc3);color:#fff;border-radius:4px;padding:1px 7px;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:.06em">REPLACE</span>
                 </div>
-                <div style="font-size:.72rem;color:var(--mid);line-height:1.65">
+                <div style="font-size:.75rem;color:var(--mid);line-height:1.7">
                   Load a backup file saved by Expensio. <strong>Expenses CSV</strong> replaces your transaction list. <strong>Finance CSV</strong> restores goals, loans, income and savings. The app detects which file type automatically.
                 </div>
-                <div style="margin-top:6px;font-size:.68rem;color:var(--acc2);font-weight:600">⚠ Replaces existing data — use only with a file previously exported by Expensio</div>
+                <div style="margin-top:6px;font-size:.68rem;color:var(--acc2);font-weight:600">⚠ Replaces existing data. Finance CSV must be from Expensio (RecordType column required). Expenses CSV needs Date &amp; Amount columns.</div>
               </div>
               <button class="btn-save" style="background:var(--acc3);white-space:nowrap;flex-shrink:0" onclick="document.getElementById('bk-file-inp').click()">⬆ Restore Backup</button>
             </div>
@@ -2022,17 +2049,17 @@ html, body { max-width: 100vw; overflow-x: hidden; }
 
           <!-- CARD 3 — Import New Data -->
           <div style="border:1.5px solid var(--acc5);border-radius:12px;padding:1rem 1.1rem;background:color-mix(in srgb,var(--acc5) 5%,var(--s1))">
-            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+            <div class="bk-card-row">
               <div style="flex:1;min-width:0">
-                <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+                <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px;flex-wrap:wrap">
                   <span style="font-size:1.1rem">📥</span>
                   <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:var(--acc5)">Import New Data</span>
                   <span style="font-size:.58rem;background:var(--acc5);color:#fff;border-radius:4px;padding:1px 7px;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:.06em">MERGE</span>
                 </div>
-                <div style="font-size:.72rem;color:var(--mid);line-height:1.65">
+                <div style="font-size:.75rem;color:var(--mid);line-height:1.7">
                   Import expenses from <strong>any CSV or Excel file</strong> — a bank statement, another app's export, or a custom spreadsheet. Columns are mapped automatically. You can choose to <strong>merge</strong> with existing data or <strong>replace</strong> it.
                 </div>
-                <div style="margin-top:6px;font-size:.68rem;color:var(--mid)">Accepts any file with: date, amount, category, note, method columns (in any order)</div>
+                <div style="margin-top:6px;font-size:.68rem;color:var(--mid)">✓ Required: <strong>Date</strong>, <strong>Amount</strong> columns. Optional: Category, Note, Method (columns auto-detected in any order).</div>
               </div>
               <button class="btn-save" style="background:var(--acc5);color:#fff;white-space:nowrap;flex-shrink:0" onclick="document.getElementById('settings-file-inp').click()">📥 Import File</button>
             </div>
@@ -3182,16 +3209,43 @@ function bkExport() {
   const expCsv = expRows.map(r => r.map(v => '"'+String(v)+'"').join(',')).join('\n');
 
   // ── Sheet 2: Finance data CSV (Goals, Loans, Savings, Income, Budgets) ──
+  // Column layout: RecordType | Name | PrimaryAmt | SecondaryAmt | TertiaryAmt | Rate | TextField1 | TextField2
   const goalRows = (FIN.goals||[]).map(g =>
     ['GOAL', g.name||'', g.target||0, g.saved||0, '', '', '', '']);
+  // GOAL columns: Name=GoalName, PrimaryAmt=TargetAmount, SecondaryAmt=SavedSoFar
+
   const loanRows = (FIN.loans||[]).map(l =>
     ['LOAN', l.name||'', l.principal||0, l.outstanding||0, l.emi||0, l.rate||0, l.lender||'', l.type||'']);
-  const savRows  = [['SAVINGS_BALANCE', FIN.savingsBalance||0, '', '', '', '', '', '']];
-  const incRows  = [['INCOME', FIN.income||0, FIN.incCycle||'monthly', '', '', '', '', '']];
+  // LOAN columns: Name=LoanName, PrimaryAmt=Principal, SecondaryAmt=Outstanding, TertiaryAmt=MonthlyEMI, Rate=InterestRate%, TextField1=Lender, TextField2=LoanType
+
+  // FIX: Balance in PrimaryAmt (col 3), not Name (col 2)
+  const savRows  = [['SAVINGS_BALANCE', '', FIN.savingsBalance||0, '', '', '', '', '']];
+  // SAVINGS_BALANCE columns: PrimaryAmt=Balance
+
+  // FIX: Income in PrimaryAmt (col 3), PayCycle in SecondaryAmt (col 4)
+  const incRows  = [['INCOME', '', FIN.income||0, FIN.incCycle||'monthly', '', '', '', '']];
+  // INCOME columns: PrimaryAmt=MonthlyIncome, SecondaryAmt=PayCycle
+
   const srcRows  = (FIN.incomeSources||[]).map(s => ['INCOME_SOURCE', s.name||'', s.amount||0, '', '', '', '', '']);
+  // INCOME_SOURCE columns: Name=SourceName, PrimaryAmt=MonthlyAmount
+
   const budRows  = Object.entries(FIN.budgets||{}).map(([cat,amt]) => ['BUDGET', cat, amt, '', '', '', '', '']);
-  const finHdr   = [['RecordType','Name','Value1','Value2','Value3','Value4','Value5','Value6']];
-  const finCsv   = [...finHdr, ...goalRows, ...loanRows, ...savRows, ...incRows, ...srcRows, ...budRows]
+  // BUDGET columns: Name=CategoryName, PrimaryAmt=MonthlyLimit
+
+  // Descriptive column headers (positional order preserved for backward compat)
+  const finHdr = [['RecordType','Name','PrimaryAmt','SecondaryAmt','TertiaryAmt','Rate','TextField1','TextField2']];
+
+  // Schema guide rows — explain column meanings per record type (ignored by importer)
+  const schemaRows = [
+    ['_SCHEMA','GOAL: Name=GoalName','PrimaryAmt=TargetAmount','SecondaryAmt=SavedSoFar','','','',''],
+    ['_SCHEMA','LOAN: Name=LoanName','PrimaryAmt=Principal','SecondaryAmt=Outstanding','TertiaryAmt=MonthlyEMI','Rate=InterestRate%','TextField1=Lender','TextField2=LoanType'],
+    ['_SCHEMA','SAVINGS_BALANCE','PrimaryAmt=Balance','','','','',''],
+    ['_SCHEMA','INCOME','PrimaryAmt=MonthlyIncome','SecondaryAmt=PayCycle(monthly/weekly)','','','',''],
+    ['_SCHEMA','INCOME_SOURCE: Name=SourceName','PrimaryAmt=MonthlyAmount','','','','',''],
+    ['_SCHEMA','BUDGET: Name=CategoryName','PrimaryAmt=MonthlyLimit','','','','',''],
+  ];
+
+  const finCsv = [...finHdr, ...schemaRows, ...goalRows, ...loanRows, ...savRows, ...incRows, ...srcRows, ...budRows]
     .map(r => r.map(v => '"'+String(v)+'"').join(',')).join('\n');
 
   // ── Download both files ──
@@ -3289,23 +3343,76 @@ function bkLoadRows(iH, iR, fname) {
 function restoreFinanceBackup(iH, iR, fname) {
   if (!confirm('Restore finance data (goals, loans, savings, income, budgets) from "' + fname + '"?')) return;
   const rt = iH.find(h => h.toLowerCase().includes('recordtype')) || 'RecordType';
-  let gCount=0, lCount=0;
+  let gCount=0, lCount=0, savRestored=false, incRestored=false;
   const newFin = { ...FIN, goals:[], loans:[], budgets:{}, incomeSources:[], savingsBalance:FIN.savingsBalance };
+
   iR.forEach(row => {
     const type = String(row[rt]||'').trim().toUpperCase();
-    const v1   = row[iH[1]]||'', v2=+(row[iH[2]]||0), v3=+(row[iH[3]]||0),
-          v4   = +(row[iH[4]]||0), v5=+(row[iH[5]]||0), v6=row[iH[6]]||'', v7=row[iH[7]]||'';
-    if (type==='GOAL')           { newFin.goals.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2),name:v1,target:v2,saved:v3}); gCount++; }
-    else if (type==='LOAN')      { newFin.loans.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2),name:v1,principal:v2,outstanding:v3,emi:v4,rate:v5,lender:v6,type:v7||'other',startDate:'',endDate:'',note:''}); lCount++; }
-    else if (type==='SAVINGS_BALANCE') { newFin.savingsBalance = v2; }
-    else if (type==='INCOME')    { newFin.income=v2; newFin.incCycle=String(row[iH[3]]||'monthly'); }
-    else if (type==='INCOME_SOURCE') { newFin.incomeSources.push({name:v1,amount:v2}); }
-    else if (type==='BUDGET')    { if(v1&&v2>0) newFin.budgets[v1]=v2; }
+    // Skip schema-info rows silently
+    if (type.startsWith('_') || type === 'RECORDTYPE') return;
+
+    // v1=Name col, v2=col3(PrimaryAmt), v3=col4, v4=col5, v5=col6, v6=col7, v7=col8
+    const v1 = row[iH[1]]||'';
+    const v2 = +(row[iH[2]]||0);
+    const v3 = +(row[iH[3]]||0);
+    const v4 = +(row[iH[4]]||0);
+    const v5 = +(row[iH[5]]||0);
+    const v6 = row[iH[6]]||'';
+    const v7 = row[iH[7]]||'';
+
+    if (type === 'GOAL') {
+      newFin.goals.push({
+        id: Date.now().toString(36)+Math.random().toString(36).slice(2),
+        name: v1, target: v2, saved: v3
+      });
+      gCount++;
+
+    } else if (type === 'LOAN') {
+      newFin.loans.push({
+        id: Date.now().toString(36)+Math.random().toString(36).slice(2),
+        name: v1, principal: v2, outstanding: v3, emi: v4, rate: v5,
+        lender: v6, type: v7||'other', startDate:'', endDate:'', note:''
+      });
+      lCount++;
+
+    } else if (type === 'SAVINGS_BALANCE') {
+      // New format: PrimaryAmt=balance (v2). Old format: Name=balance (v1).
+      const bal = v2 > 0 ? v2 : (parseFloat(String(v1).replace(/[^\d.]/g,''))||0);
+      newFin.savingsBalance = bal;
+      savRestored = true;
+
+    } else if (type === 'INCOME') {
+      // New format: PrimaryAmt=income (v2), SecondaryAmt=cycle (col4=row[iH[3]]).
+      // Old format: Name=income (v1), PrimaryAmt=cycle (v2 as string).
+      const rawV1 = parseFloat(String(v1).replace(/[^\d.]/g,''));
+      const rawV2str = String(row[iH[2]]||'');
+      const isV2Numeric = !isNaN(parseFloat(rawV2str)) && parseFloat(rawV2str) > 0;
+      newFin.income = isV2Numeric ? v2 : (rawV1 > 0 ? rawV1 : 0);
+      // Cycle: in new format at iH[3], old format at iH[2]
+      const cycleCandidate = String(row[iH[3]]||'').trim() || String(row[iH[2]]||'').trim();
+      const validCycles = ['monthly','weekly','fortnightly','bimonthly','yearly'];
+      newFin.incCycle = validCycles.includes(cycleCandidate.toLowerCase())
+        ? cycleCandidate.toLowerCase() : 'monthly';
+      incRestored = true;
+
+    } else if (type === 'INCOME_SOURCE') {
+      newFin.incomeSources.push({ name: v1, amount: v2 });
+
+    } else if (type === 'BUDGET') {
+      if (v1 && v2 > 0) newFin.budgets[v1] = v2;
+    }
   });
+
   Object.assign(FIN, newFin);
   saveFin();
   updateFinBar(); updateFinStrip(); updateSavingsTiles(); updateLoanTiles();
-  toast('\u2713 Finance data restored: '+gCount+' goals, '+lCount+' loans, income & budgets ✓','ok');
+  const parts = [];
+  if (gCount) parts.push(gCount + ' goals');
+  if (lCount) parts.push(lCount + ' loans');
+  if (incRestored) parts.push('income');
+  if (savRestored) parts.push('savings balance');
+  if (Object.keys(newFin.budgets).length) parts.push(Object.keys(newFin.budgets).length + ' budget categories');
+  toast('\u2713 Finance restored: ' + (parts.join(', ')||'data') + ' ✓', 'ok');
 }
 
 function bkAutoStatus() {
