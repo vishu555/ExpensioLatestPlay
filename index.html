@@ -52,7 +52,6 @@
   font-src 'self' https://fonts.gstatic.com;
   img-src 'self' data: blob: https:;
   connect-src 'self'
-    https://generativelanguage.googleapis.com
     https://api.groq.com
     https://openrouter.ai
     https://api.anthropic.com
@@ -1857,7 +1856,7 @@ html, body { max-width: 100vw; overflow-x: hidden; }
       <div class="s-panel" id="spanel-ai">
         <div class="s-section">
           <div class="s-section-title">✦ AI Provider</div>
-          <div class="s-section-desc">Select the AI service to generate spending insights. Google Gemini and Groq are completely free — no credit card needed.</div>
+          <div class="s-section-desc">Select the AI service to generate spending insights. Groq and OpenRouter are completely free — no credit card needed.</div>
           <div class="prov-grid" id="prov-grid"></div>
         </div>
 
@@ -2241,7 +2240,7 @@ let CFG=safeLoadObj(CFG_KEY);
 CFG={
   theme:'cloud',
   font:'syne',
-  provider:'gemini',
+  provider:'groq',
   apiKey: '',
   insightCount:5,
   insFocus:'balanced',
@@ -2345,38 +2344,6 @@ function applyTheme(id){
 // PROVIDERS
 // ═══════════════════════════════════════════
 const PROVIDERS={
-  gemini:{name:'Google Gemini',icon:'🟢',badge:'Free',
-    desc:'Best free option. Fast, generous limits.',
-    hint:'Get key at <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a> → Get API Key',
-    ph:'AIza…',
-    call:async(key,prompt)=>{
-      // Hard-trim prompt before sending — Gemini rejects payloads over 4MB
-      // Use BYTE-based trimming (not char-based) because ₹ = 3 bytes, emoji = 4 bytes
-      let trimmed = typeof prompt==='string' ? prompt : String(prompt);
-      const enc = new TextEncoder();
-      const MAX_PROMPT_BYTES = 8000; // ~2000 chars of mixed Unicode
-      if(enc.encode(trimmed).length > MAX_PROMPT_BYTES){
-        // Binary search for the right cut point in bytes
-        let lo=0, hi=trimmed.length;
-        while(lo<hi-1){const mid=(lo+hi)>>1;enc.encode(trimmed.slice(0,mid)).length<=MAX_PROMPT_BYTES?lo=mid:hi=mid;}
-        trimmed = trimmed.slice(0,lo) + '\n\nJSON array:';
-      }
-      const bodyObj={contents:[{parts:[{text:trimmed}]}],generationConfig:{temperature:.7}};
-      const bodyStr=JSON.stringify(bodyObj);
-      const byteSize=enc.encode(bodyStr).length;
-      // Hard block — never send more than 50KB to Gemini (well under 4MB limit)
-      if(byteSize>51200){
-        throw new Error('Payload too large ('+Math.round(byteSize/1024)+'KB). Please reduce your expense data and try again.');
-      }
-      const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
-        method:'POST',headers:{'Content-Type':'application/json'},
-        body:bodyStr
-      });
-      const d=await r.json();
-      if(!r.ok)throw new Error(d.error?.message||`Gemini error ${r.status}`);
-      return d.candidates?.[0]?.content?.parts?.[0]?.text||'[]';
-    }
-  },
   groq:{name:'Groq',icon:'⚡',badge:'Free',
     desc:'Ultra-fast inference. Llama 3.3 70B.',
     hint:'Get key at <a href="https://console.groq.com" target="_blank">console.groq.com</a> → API Keys',
@@ -2472,7 +2439,6 @@ function saveApiKey(){
   if(!raw) return toast('Enter an API key first','er');
   // Basic format validation per provider
   const p=CFG.provider;
-  if(p==='gemini'   && !raw.startsWith('AIza')) return toast('Gemini keys start with AIza…','er');
   if(p==='groq'     && !raw.startsWith('gsk_')) return toast('Groq keys start with gsk_…','er');
   if(p==='anthropic'&& !raw.startsWith('sk-ant')) return toast('Anthropic keys start with sk-ant…','er');
   if(p==='openrouter'&&!raw.startsWith('sk-or-')) return toast('OpenRouter keys start with sk-or-…','er');
@@ -3133,7 +3099,7 @@ async function genInsights(){
 
     // ── Byte-based size guard (chars mislead with ₹/emoji multi-byte chars) ──
     const _enc = new TextEncoder();
-    const MAX_PROMPT_BYTES = 6000; // safe ceiling; Gemini rejects payloads > 4MB
+    const MAX_PROMPT_BYTES = 6000; // safe ceiling for all providers
     let safePrompt = prompt;
     if(_enc.encode(safePrompt).length > MAX_PROMPT_BYTES){
       let lo=0, hi=safePrompt.length;
@@ -3141,9 +3107,8 @@ async function genInsights(){
       safePrompt = safePrompt.slice(0,lo) + '\n\nJSON array:';
     }
 
-    // ── Measure exact bytes before sending ────────────────────────
-    const bodyObj = {contents:[{parts:[{text:safePrompt}]}],generationConfig:{temperature:.7}};
-    const bodyStr = JSON.stringify(bodyObj);
+    // ── Measure approximate bytes before sending ────────────────────────
+    const bodyStr = JSON.stringify({messages:[{role:'user',content:safePrompt}]});
     const byteSize = _enc.encode(bodyStr).length;
 
     // Hard block — should never be reached with the byte guard above
@@ -5173,8 +5138,7 @@ const OB_STEPS = [
     icon:'✦', badge:'AI Insights', title:'AI-Powered Spending Insights',
     desc:'Expensio can analyse your full financial picture and generate personalised, actionable insights using a free or paid AI provider of your choice.',
     tips:[
-      '🟢 <strong>Google Gemini</strong> — free, fast, no credit card needed. Best starting point.',
-      '⚡ <strong>Groq (Llama 3.3)</strong> — ultra-fast free inference. Great for daily use.',
+      '⚡ <strong>Groq (Llama 3.3)</strong> — ultra-fast free inference. Best starting point. No credit card needed.',
       '🔀 <strong>OpenRouter</strong> — access free Llama & Mistral models with one key.',
       '🟣 <strong>Anthropic Claude</strong> — most accurate insights ($5 free credits on signup).',
       '⚙️ Go to <strong>Settings → AI & Insights</strong>, paste your API key and click <em>Test Connection</em>.'
