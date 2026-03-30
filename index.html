@@ -455,12 +455,12 @@ pre{font-size:.65rem;color:var(--mid);line-height:1.85;background:var(--s3);bord
 .exp-card:active{background:var(--s2)}
 .exp-card-left{flex:1;min-width:0}
 .exp-card-row1{display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap}
-.exp-card-cat{font-family:'Syne',sans-serif;font-weight:700;font-size:.8rem;color:var(--txt)}
-.exp-card-method{font-size:.62rem;color:var(--dim);background:var(--s3);border-radius:4px;padding:1px 6px}
-.exp-card-note{font-size:.7rem;color:var(--mid);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.exp-card-date{font-size:.65rem;color:var(--dim);margin-top:2px}
+.exp-card-cat{font-family:var(--font-ui,'Syne',sans-serif);font-weight:700;font-size:.8rem;color:var(--txt)}
+.exp-card-method{font-family:var(--font-body,'DM Mono',monospace);font-size:.62rem;color:var(--dim);background:var(--s3);border-radius:4px;padding:1px 6px}
+.exp-card-note{font-family:var(--font-body,'DM Mono',monospace);font-size:.7rem;color:var(--mid);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.exp-card-date{font-family:var(--font-body,'DM Mono',monospace);font-size:.65rem;color:var(--dim);margin-top:2px}
 .exp-card-right{text-align:right;flex-shrink:0}
-.exp-card-amt{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;color:var(--acc2)}
+.exp-card-amt{font-family:var(--font-num,'Syne',sans-serif);font-size:1.1rem;font-weight:700;color:var(--acc2)}
 .exp-card-del{background:none;border:none;color:var(--dim);cursor:pointer;font-size:1.1rem;padding:4px 2px;display:block;margin-top:2px;transition:color .15s}
 .exp-card-del:active{color:var(--danger)}
 .sheet-overlay{display:none;position:fixed;inset:0;z-index:399;background:rgba(0,0,0,.4);backdrop-filter:blur(2px)}
@@ -1338,23 +1338,27 @@ html, body { max-width: 100vw; overflow-x: hidden; }
 </div>
 
 <!-- ░░ ONBOARDING TOUR ░░ -->
-<div id="onboarding-screen" style="display:none;position:fixed;inset:0;z-index:9998;background:linear-gradient(135deg,#6c3de8 0%,#4f1fd4 40%,#0ea5e9 100%);overflow:hidden;align-items:center;justify-content:center;padding:1.5rem;">
+<div id="onboarding-screen" style="display:none;position:fixed;inset:0;z-index:9998;background:linear-gradient(135deg,#6c3de8 0%,#4f1fd4 40%,#0ea5e9 100%);overflow:hidden;">
+  <!-- Background decorations (clipped by overflow:hidden on outer) -->
   <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none">
     <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:rgba(255,255,255,.05);top:-100px;right:-80px;animation:orb1 9s ease-in-out infinite"></div>
     <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.04);bottom:-60px;left:-40px;animation:orb2 11s ease-in-out infinite"></div>
   </div>
   <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none"></div>
 
+  <!-- Scrollable content layer — separates from overflow:hidden decorations -->
+  <div style="position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;align-items:flex-start;justify-content:center;padding:1.5rem 1.2rem 2rem;">
+
   <!-- Onboarding card -->
-  <div style="position:relative;z-index:1;max-width:620px;width:100%;">
+  <div style="position:relative;z-index:1;max-width:620px;width:100%;padding-top:.2rem;">
 
     <!-- Progress bar -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4rem;gap:1rem">
-      <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6)" id="ob-step-label">Step 1 of 6</div>
-      <div style="flex:1;height:4px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4rem;gap:1rem;flex-wrap:nowrap">
+      <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6);white-space:nowrap" id="ob-step-label">Step 1 of 6</div>
+      <div style="flex:1;height:4px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden;min-width:40px">
         <div id="ob-progress-fill" style="height:100%;border-radius:2px;background:#ffffff;transition:width .4s ease;width:16.6%"></div>
       </div>
-      <button onclick="skipOnboarding()" style="background:none;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:4px 12px;font-family:'Syne',sans-serif;font-weight:700;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.55);cursor:pointer;transition:all .2s;white-space:nowrap"
+      <button onclick="skipOnboarding()" style="background:none;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:4px 12px;font-family:'Syne',sans-serif;font-weight:700;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.55);cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0"
         onmouseover="this.style.borderColor='rgba(255,255,255,.5)';this.style.color='rgba(255,255,255,.85)'"
         onmouseout="this.style.borderColor='rgba(255,255,255,.25)';this.style.color='rgba(255,255,255,.55)'">Skip Tour</button>
     </div>
@@ -1363,11 +1367,11 @@ html, body { max-width: 100vw; overflow-x: hidden; }
     <div id="ob-card" style="background:rgba(255,255,255,.11);backdrop-filter:blur(24px);border:1.5px solid rgba(255,255,255,.22);border-radius:24px;padding:2.4rem 2.8rem;box-shadow:0 24px 64px rgba(0,0,0,.22);animation:wlcFadeUp .45s cubic-bezier(.22,1,.36,1) both;">
 
       <!-- Step icon + badge -->
-      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.6rem">
-        <div id="ob-icon" style="width:60px;height:60px;border-radius:16px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0;box-shadow:0 6px 20px rgba(0,0,0,.15)">📊</div>
-        <div>
+      <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.6rem">
+        <div id="ob-icon" style="width:60px;height:60px;min-width:60px;border-radius:16px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0;box-shadow:0 6px 20px rgba(0,0,0,.15)">📊</div>
+        <div style="min-width:0;flex:1">
           <div id="ob-badge" style="display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);border-radius:20px;padding:3px 12px;font-family:'Syne',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:.4rem">Dashboard</div>
-          <div id="ob-title" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:#ffffff;letter-spacing:-.02em;line-height:1.2">Your Financial Dashboard</div>
+          <div id="ob-title" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:#ffffff;letter-spacing:-.02em;line-height:1.25;word-break:break-word;overflow-wrap:break-word">Your Financial Dashboard</div>
         </div>
       </div>
 
@@ -1375,24 +1379,25 @@ html, body { max-width: 100vw; overflow-x: hidden; }
       <div id="ob-desc" style="font-family:'DM Mono',monospace;font-size:.8rem;color:rgba(255,255,255,.78);line-height:1.9;margin-bottom:1.8rem"></div>
 
       <!-- Tips list -->
-      <div id="ob-tips" style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem"></div>
+      <div id="ob-tips" style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.6rem"></div>
 
       <!-- Navigation -->
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem">
-        <button id="ob-back-btn" onclick="obStep(-1)" style="background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.22);border-radius:12px;padding:12px 24px;font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.7);cursor:pointer;transition:all .2s;display:none"
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:nowrap">
+        <button id="ob-back-btn" onclick="obStep(-1)" style="background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.22);border-radius:12px;padding:12px 18px;font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.7);cursor:pointer;transition:all .2s;display:none;white-space:nowrap;flex-shrink:0"
           onmouseover="this.style.background='rgba(255,255,255,.2)';this.style.color='#fff'"
           onmouseout="this.style.background='rgba(255,255,255,.12)';this.style.color='rgba(255,255,255,.7)'">← Back</button>
-        <div style="flex:1"></div>
+        <div style="flex:1;min-width:0"></div>
         <!-- Dot indicators -->
-        <div id="ob-dots" style="display:flex;gap:6px;align-items:center"></div>
-        <div style="flex:1"></div>
-        <button id="ob-next-btn" onclick="obStep(1)" style="background:#ffffff;color:#6c3de8;border:none;border-radius:12px;padding:12px 28px;font-family:'Syne',sans-serif;font-weight:800;font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.18);transition:all .2s"
+        <div id="ob-dots" style="display:flex;gap:6px;align-items:center;flex-shrink:0"></div>
+        <div style="flex:1;min-width:0"></div>
+        <button id="ob-next-btn" onclick="obStep(1)" style="background:#ffffff;color:#6c3de8;border:none;border-radius:12px;padding:12px 22px;font-family:'Syne',sans-serif;font-weight:800;font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.18);transition:all .2s;white-space:nowrap;flex-shrink:0"
           onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,.24)'"
           onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 6px 24px rgba(0,0,0,.18)'">Next →</button>
       </div>
 
     </div>
   </div>
+  </div><!-- end scrollable layer -->
 </div>
 
 <style>
@@ -1404,9 +1409,12 @@ html, body { max-width: 100vw; overflow-x: hidden; }
 @keyframes orb2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-20px,-30px) scale(1.06)}}
 @keyframes orb3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(10px,-20px) scale(1.12)}}
 @media(max-width:600px){
-  #ob-card{padding:1.6rem 1.4rem !important}
-  #ob-title{font-size:1.05rem !important}
+  #ob-card{padding:1.4rem 1.2rem !important}
+  #ob-title{font-size:1rem !important;word-break:break-word !important}
   #ob-desc{font-size:.72rem !important}
+  #ob-icon{width:48px !important;height:48px !important;min-width:48px !important;font-size:1.5rem !important}
+  #ob-next-btn{padding:11px 16px !important;font-size:.72rem !important}
+  #ob-back-btn{padding:11px 14px !important;font-size:.68rem !important}
 }
 </style>
 
@@ -2225,10 +2233,7 @@ html, body { max-width: 100vw; overflow-x: hidden; }
   <button class="btn-sub" onclick="addExpSheet()">+ Add Expense</button>
 </div>
 
-<!-- EXPENSE CARDS (mobile list) -->
-<div style="display:none" id="exp-cards-container">
-  <div class="exp-cards" id="exp-cards"></div>
-</div>
+<!-- EXPENSE CARDS placeholder removed — rendered inside view-expenses -->
 
 <script>
 // ═══════════════════════════════════════════
@@ -2363,7 +2368,7 @@ function applyTheme(id){
   document.documentElement.setAttribute('data-theme',id);
   saveCfg();
   buildThemeGrid();
-  buildCharts(); // rebuild charts with new colours
+  requestAnimationFrame(buildCharts); // rebuild charts with new colours
   toast(`Theme: ${THEMES.find(t=>t.id===id).name}`,'ok');
 }
 
@@ -2626,7 +2631,14 @@ const fmt=n=>Number(n).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFr
 const emo=id=>(CATS.find(c=>c.id===id)||{e:'📦'}).e;
 
 function refresh(){
-  updateKPIs();buildCharts();updateFilters();renderTbl();
+  updateKPIs();
+  // Only rebuild charts when the dashboard view is visible (avoids 0-size canvas bug)
+  var dashView=document.getElementById('view-dashboard');
+  if(dashView && dashView.classList.contains('active')){
+    // Use requestAnimationFrame to ensure layout is calculated before Chart.js reads dimensions
+    requestAnimationFrame(buildCharts);
+  }
+  updateFilters();renderTbl();
   document.getElementById('hdr-total').textContent='₹'+fmt(EX.reduce((s,e)=>s+e.amount,0));
   // Finance tiles — safe to call even before FIN is loaded (functions guard themselves)
   if(typeof updateFinBar==='function')       updateFinBar();
@@ -5171,6 +5183,25 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 <script>
 // ── Welcome → Onboarding ──
+// ── First-launch check: skip welcome+tour if already seen ──
+(function(){
+  try{
+    if(localStorage.getItem('expensio_tour_done')==='1'){
+      // Hide welcome screen immediately
+      var ws=document.getElementById('welcome-screen');
+      if(ws) ws.style.display='none';
+      // Reveal app shell without animation
+      document.querySelectorAll('.app-shell-hidden').forEach(function(el){
+        el.classList.remove('app-shell-hidden');
+      });
+      // go() might not be defined yet at this point, so defer it
+      window.addEventListener('DOMContentLoaded',function(){
+        if(typeof go==='function') go('dashboard');
+      });
+    }
+  }catch(e){}
+})();
+
 function showOnboarding(){
   var ws = document.getElementById('welcome-screen');
   ws.style.animation = 'wlcFadeOut .4s cubic-bezier(.4,0,1,1) forwards';
@@ -5183,6 +5214,8 @@ function showOnboarding(){
 }
 
 function skipOnboarding(){
+  // Mark tour as completed so it never shows again
+  try{ localStorage.setItem('expensio_tour_done','1'); }catch(e){}
   var ob = document.getElementById('onboarding-screen');
   ob.style.animation = 'wlcFadeOut .4s cubic-bezier(.4,0,1,1) forwards';
   setTimeout(function(){
